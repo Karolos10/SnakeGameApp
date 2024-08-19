@@ -1,5 +1,6 @@
 import turtle
 import time
+import random
 
 posp = 0.1
  
@@ -18,6 +19,14 @@ head.color("white")
 head.penup()
 head.goto(0,0)
 head.direction = "stop"
+
+#Snake eat
+eat = turtle.Turtle()
+eat.speed(0)
+eat.shape("circle")
+eat.color("red")
+eat.penup()
+eat.goto(0,50)
 
 #Functions
 
@@ -56,6 +65,11 @@ wn.onkeypress(left, "Left")
 
 while True:
     wn.update()
+    
+    if head.distance(eat) < 20:
+        x = random.randint(-290, 290)
+        y = random.randint(-290, 290)
+        eat.goto(x, y)
     
     mov()
     time.sleep(posp)
