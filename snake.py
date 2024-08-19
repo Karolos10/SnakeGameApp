@@ -69,6 +69,19 @@ wn.onkeypress(left, "Left")
 while True:
     wn.update()
     
+    #Colision borders
+    if head.xcor() > 290 or head.xcor() < -290 or head.ycor() > 290 or head.ycor() < -290:
+        time.sleep(1)
+        head.goto(0,0)
+        head.direction = "stop"
+        
+        #Change segments position
+        for segment in segments:
+            segment.goto(1000, 1000)
+        
+        #Crear segmentos
+        segments.clear()
+    
     if head.distance(eat) < 20:
         x = random.randint(-280, 280)
         y = random.randint(-280, 280)
