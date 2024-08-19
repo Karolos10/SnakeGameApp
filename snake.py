@@ -10,6 +10,11 @@ wn.bgcolor("black")
 wn.setup(width=600, height=600)
 wn.tracer(0)
 
+#Score
+score = 0
+high_score = 0
+
+
 
 #Snake Head
 head = turtle.Turtle()
@@ -30,6 +35,15 @@ eat.goto(0,50)
 
 #Segments / Body of the snake
 segments = []
+
+#Texts
+text = turtle.Turtle()
+text.speed(0)
+text.color("white")
+text.penup()
+text.hideturtle()
+text.goto(0,260)
+text.write("Score: 0     High Score: 0", align="center", font=("Courier", 24, "normal"))
 
 #Functions
 
@@ -70,7 +84,7 @@ while True:
     wn.update()
     
     #Colision borders
-    if head.xcor() > 290 or head.xcor() < -290 or head.ycor() > 290 or head.ycor() < -290:
+    if head.xcor() > 280 or head.xcor() < -280 or head.ycor() > 280 or head.ycor() < -280:
         time.sleep(1)
         head.goto(0,0)
         head.direction = "stop"
@@ -81,10 +95,15 @@ while True:
         
         #Crear segmentos
         segments.clear()
+        
+        #Reset score
+        score = 0
+        text.clear()    
+        text.write("Score: {}     High Score: {}".format(score, high_score), align="center", font=("Courier", 24, "normal"))
     
     if head.distance(eat) < 20:
-        x = random.randint(-280, 280)
-        y = random.randint(-280, 280)
+        x = random.randint(-250, 250)
+        y = random.randint(-250, 250)
         eat.goto(x, y)
         
         new_segment = turtle.Turtle()
@@ -93,6 +112,15 @@ while True:
         new_segment.color("white")
         new_segment.penup()
         segments.append(new_segment)
+        
+        #Increase score
+        score += 10
+        
+        if score > high_score:
+            high_score = score
+        
+        text.clear()    
+        text.write("Score: {}     High Score: {}".format(score, high_score), align="center", font=("Courier", 24, "normal"))
     
     #Moving the snake's body
     totalSeg = len(segments)
@@ -107,6 +135,24 @@ while True:
         segments[0].goto(x, y)
     
     mov()
+    
+    #Colision with the body
+    for segment in segments:
+        if segment.distance(head) < 20:
+            time.sleep(1)
+            head.goto(0,0)
+            head.direction = "stop"
+            
+            for segment in segments:
+                segment.goto(1000, 1000)
+            
+            segments.clear()
+            
+            score = 0
+            text.clear()    
+            text.write("Score: {}     High Score: {}".format(score, high_score), align="center", font=("Courier", 24, "normal"))
+    
+    
     time.sleep(posp)
     
 
