@@ -28,6 +28,9 @@ eat.color("red")
 eat.penup()
 eat.goto(0,50)
 
+#Segments / Body of the snake
+segments = []
+
 #Functions
 
 def up():
@@ -67,9 +70,28 @@ while True:
     wn.update()
     
     if head.distance(eat) < 20:
-        x = random.randint(-290, 290)
-        y = random.randint(-290, 290)
+        x = random.randint(-280, 280)
+        y = random.randint(-280, 280)
         eat.goto(x, y)
+        
+        new_segment = turtle.Turtle()
+        new_segment.speed(0)
+        new_segment.shape("square")
+        new_segment.color("white")
+        new_segment.penup()
+        segments.append(new_segment)
+    
+    #Moving the snake's body
+    totalSeg = len(segments)
+    for index in range(totalSeg - 1, 0, -1):
+        x = segments[index - 1].xcor()
+        y = segments[index - 1].ycor()
+        segments[index].goto(x, y)
+    
+    if totalSeg > 0:
+        x = head.xcor()
+        y = head.ycor()
+        segments[0].goto(x, y)
     
     mov()
     time.sleep(posp)
